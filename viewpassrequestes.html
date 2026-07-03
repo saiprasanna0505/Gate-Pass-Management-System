@@ -1,0 +1,210 @@
+{% load  static%}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<title>Voidmain</title>
+<link rel="stylesheet" type="text/css" href="{% static 'style/style.css'%}" title="style" />
+
+    <style>
+        #customers {
+          font-family: Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        #customers td, #customers th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #04AA6D;
+          color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+	<div id="main">
+		<div id="header">
+			<div id="logo">
+				<div id="logo_text">
+					<!-- class="logo_colour", allows you to change the colour of the text -->
+					<h3>
+						<div align="center">
+                            <a href="#"><font color="white">DIGITAL OUT PASS MANAGEMENT SYSTEM</font></a>
+                        </div>
+					</h3>
+					<br/><br/>
+				</div>
+			</div>
+			<div id="menubar">
+				<ul id="menu">
+                   {% if request.session.role in "student" %}
+						<li><a href="/addpassrequest">Send Request</a></li>
+					{% endif %}
+
+                    {% if request.session.role in "admin" %}
+						<li><a href="/recognizeuser">Recognize User</a></li>
+					{% endif %}
+
+                    <li><a href="/getpassrequests">Get Pass Requests</a></li>
+
+                    <li><a href="/logout">logout</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="content_header"></div>
+		<div id="site_content">
+			<div id="content">
+
+				<h1>Welcome to  <strong>{{request.session.username}}</strong>{{form.non_field_errors}}</h1>
+
+                <table id="customers">
+                    {% if request.session.role in "department" %}
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Branch</th>
+                            <th>Year</th>
+                            <th>Section</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Reason</th>
+                            <th>Parent Status</th>
+                            <th>Department Status</th>
+                            <th>Approve</th>
+                            <th>Reject</th>
+                        </tr>
+                        {% for passrequest in passrequests %}
+                            <tr>
+                                <td>{{passrequest.rno}}</td>
+                                <td>{{passrequest.name}}</td>
+                                <td>{{passrequest.branch}}</td>
+                                <td>{{passrequest.year}}</td>
+                                <td>{{passrequest.section}}</td>
+                                <td>{{passrequest.date}}</td>
+                                <td>{{passrequest.time}}</td>
+                                <td>{{passrequest.reason}}</td>
+                                <td>{{passrequest.status1}}</td>
+                                <td>{{passrequest.status2}}</td>
+                                <td><a href="/approveorrejectrequest?rid={{passrequest.id}}&status=approved">Approved</a></td>
+                                <td><a href="/approveorrejectrequest?rid={{passrequest.id}}&status=rejected">Rejected</a></td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+
+                </table>
+
+                <table id="customers">
+                    {% if request.session.role in "student" %}
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Branch</th>
+                            <th>Year</th>
+                            <th>Section</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Reason</th>
+                            <th>Parent Status</th>
+                            <th>Department Status</th>
+                            <th>Delete</th>
+                        </tr>
+                        {% for passrequest in passrequests %}
+                            <tr>
+                                <td>{{passrequest.rno}}</td>
+                                <td>{{passrequest.name}}</td>
+                                <td>{{passrequest.branch}}</td>
+                                <td>{{passrequest.year}}</td>
+                                <td>{{passrequest.section}}</td>
+                                <td>{{passrequest.date}}</td>
+                                <td>{{passrequest.time}}</td>
+                                <td>{{passrequest.reason}}</td>
+                                <td>{{passrequest.status1}}</td>
+                                <td>{{passrequest.status2}}</td>
+                                <td><a href="/deletepassrequest?passrequestid={{passrequest.id}}">delete</a></td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+
+                <table id="customers">
+                    {% if request.session.role in "parent" %}
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Branch</th>
+                            <th>Year</th>
+                            <th>Section</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Reason</th>
+                            <th>Parent Status</th>
+                            <th>Department Status</th>
+                            <th>Approve</th>
+                            <th>Reject</th>
+                        </tr>
+                        {% for passrequest in passrequests %}
+                            <tr>
+                                <td>{{passrequest.rno}}</td>
+                                <td>{{passrequest.name}}</td>
+                                <td>{{passrequest.branch}}</td>
+                                <td>{{passrequest.year}}</td>
+                                <td>{{passrequest.section}}</td>
+                                <td>{{passrequest.date}}</td>
+                                <td>{{passrequest.time}}</td>
+                                <td>{{passrequest.reason}}</td>
+                                <td>{{passrequest.status1}}</td>
+                                <td>{{passrequest.status2}}</td>
+                                <td><a href="/approveorrejectrequest?rid={{passrequest.id}}&status=approved">Approved</a></td>
+                                <td><a href="/approveorrejectrequest?rid={{passrequest.id}}&status=rejected">Rejected</a></td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+
+                <table id="customers">
+                    {% if request.session.role in "gatekeeper" %}
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Branch</th>
+                            <th>Year</th>
+                            <th>Section</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Reason</th>
+                            <th>Parent Status</th>
+                            <th>Department Status</th>
+                        </tr>
+                        {% for passrequest in passrequests %}
+                            <tr>
+                                <td>{{passrequest.rno}}</td>
+                                <td>{{passrequest.name}}</td>
+                                <td>{{passrequest.branch}}</td>
+                                <td>{{passrequest.year}}</td>
+                                <td>{{passrequest.section}}</td>
+                                <td>{{passrequest.date}}</td>
+                                <td>{{passrequest.time}}</td>
+                                <td>{{passrequest.reason}}</td>
+                                <td>{{passrequest.status1}}</td>
+                                <td>{{passrequest.status2}}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
